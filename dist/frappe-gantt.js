@@ -712,11 +712,13 @@ var Gantt = (function () {
             if (Number(this.task._start) !== Number(new_start_date)) {
                 changed = true;
                 this.task._start = new_start_date;
+		this.task.start = new_start_date;
             }
 
             if (Number(this.task._end) !== Number(new_end_date)) {
                 changed = true;
                 this.task._end = new_end_date;
+		this.task.end = new_end_date;
             }
 
             if (!changed) return;
