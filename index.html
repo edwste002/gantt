@@ -96,18 +96,7 @@
 			on_view_change: (mode) => {
 				console.log(mode);
 			},
-	custom_popup_html: (task) => {
-	  // the task object will contain the updated
-	  // dates and progress value
-	  const end_date = task._end.format('MMM D');
-	  return `
-		<div class="details-container">
-		  <h5>${task.name}</h5>
-		  <p>Expected to finish by ${end_date}</p>
-		  <p>${task.progress}% completed!</p>
-		</div>
-	  `;
-	},
+
 
 			view_mode: 'Month',
 			language: 'en'
@@ -120,6 +109,7 @@
 	  <button type="button" class="btn btn-sm btn-light" onClick="gantt_chart.change_view_mode('Day');">Day</button>
 	  <button type="button" class="btn btn-sm btn-light active" onClick="gantt_chart.change_view_mode('Week');">Week</button>
 	  <button type="button" class="btn btn-sm btn-light" onClick="gantt_chart.change_view_mode('Month');">Month</button>
+	  <button type="button" class="btn btn-sm btn-light" onClick="addTask();">Month</button>
 	</div>
 </body>
 </html>
