@@ -22,7 +22,8 @@
 	</style>
 	<link rel="stylesheet" href="dist/frappe-gantt.css" />
 	<link type="text/css" rel="stylesheet" href="dist/frappe_theme_6307babd.css" />
-	
+	<link type="text/css" rel="stylesheet" href="dist/popup.css" />
+
 	<script src="dist/frappe-gantt.js"></script>
 </head>
 <body>
@@ -83,6 +84,7 @@
 		]
 
 		var gantt_chart = new Gantt(".gantt-target", tasks, {
+			step:24,
 			view_modes: ['Quarter Day', 'Half Day', 'Day', 'Week', 'Month'],
 			on_click: task => {
 				console.log(task);
@@ -98,10 +100,71 @@
 			},
 
 
-			view_mode: 'Month',
+			view_mode: 'Quarter Day',
 			language: 'en'
 		});
 		console.log(gantt_chart);
+		function addTask(){
+			var tname = prompt("Name of Task");
+			dateStart();
+			/*tstart = prompt("start");
+			tend = prompt("end");
+			tid = prompt("id");
+			tprogress = prompt("progress");
+			tdepend = prompt("dependencies");	//expand on this later
+			var tt = gantt_chart.tasks;
+			var new_task = {
+				start: tstart,
+				end: tend,
+				name: tname,
+				id: tid,
+				progress: tprogress,
+				dependencies: tdepend};
+			tt.push(new_task);
+			gantt_chart.refresh(tt);
+			*/
+		};
+
+// When the user clicks on <div>, open the popup
+		function dateStart() {
+  			var popup = document.getElementById("dateStartPopUp");
+  			popup.classList.toggle("show");
+		};
+
+		function dateEnd() {
+			var tstart = document.getElementById("startdate").text + document.getElementById("starttime").text;
+			alert(tstart);
+  			var popup = document.getElementById("dateStartPopUp");
+  			popup.classList.toggle("hide");
+  			var popdown = document.getElementById("dateEndPopUp");
+  			popup.classList.toggle("show");
+		};
+
+		/*
+		function progress() {
+			tprogress = prompt("progress");
+			//get next available id number
+			let highest_task_number = 0;
+			gantt_chart.tasks.forEach( function cycle(task_index) {
+				alert(task_index.id);
+				const myArray = task_index.id.split(" ");
+				
+				let tasknumber = Number(myArray[1]);
+				//alert(tasknumber);
+				alert(myArray[1]);
+				if tasknumber > highest_task_number{
+					highest_task_number = tasknumber;
+				};);
+			var tid = highest_task_number + 1;
+			
+			
+		};*/
+
+		function loadAllTasks(){
+			var ssss = prompt("Input tasks list");
+			var tt = JSON.parse(ssss);
+			gantt_chart.refresh(tt);
+		};
 	</script>
 <div class="mx-auto mt-3 btn-group" role="group">
 	  <button type="button" class="btn btn-sm btn-light" onClick="gantt_chart.change_view_mode('Quarter Day');">Quarter Day</button>
@@ -109,8 +172,12 @@
 	  <button type="button" class="btn btn-sm btn-light" onClick="gantt_chart.change_view_mode('Day');">Day</button>
 	  <button type="button" class="btn btn-sm btn-light active" onClick="gantt_chart.change_view_mode('Week');">Week</button>
 	  <button type="button" class="btn btn-sm btn-light" onClick="gantt_chart.change_view_mode('Month');">Month</button>
-	  <button type="button" class="btn btn-sm btn-light" onClick="addTask();">Month</button>
+	  <button type="button" class="btn btn-sm btn-light" onClick="addTask();">Add Task</button>
+	  <button type="button" class="btn btn-sm btn-light" onClick="console.log(JSON.stringify(gantt_chart.tasks));">save to console</button>
+	  <button type="button" class="btn btn-sm btn-light" onClick="loadAllTasks();">load from input string</button>
 	</div>
+	 <div class="popup"><span class="popuptext" id="dateStartPopUp">Choose a start Date<input id="startdate" type="date" /><input id="starttime"  type="time" /><button type="button" class="btn btn-sm btn-light" onClick="dateEnd();">Quarter Day</button></span></div>
+	 <div class="popup"><span class="popuptext" id="dateEndPopUp">Choose a end Date<input id="enddate" type="date" /><input id="endtime"  type="time" /><button type="button" class="btn btn-sm btn-light" onClick="progress();">Quarter Day</button></span></div>
+</div> 
 </body>
 </html>
-
