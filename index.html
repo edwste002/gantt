@@ -98,11 +98,21 @@
 				console.log(mode);
 			},
 
-
-			view_mode: 'Quarter Day',
-			language: 'en'
+			custom_popup_html: function(task) {
+	  		// the task object will contain the updated
+	  		// dates and progress value
+	  		const end_date = task._end;
+	  		return `
+				<div class='details-container'>
+		  		<h5 onClick="var t=prompt('new task name...');gantt_chart.get_task('${task.id}').name = t;gantt_chart.render();">${task.name}</h5>
+		  		<p>Expected to finish by ${end_date}</p>
+		  		<p onClick="var t=prompt('progress percent?');gantt_chart.get_task('${task.id}').progress = t;gantt_chart.render();">${task.progress}% completed!</p>
+				</div>
+	  			`;
+			}
 		});
 		console.log(gantt_chart);
+//beginning of addtask stuff
 		var new_task = 	{
 				start: '',
 				end: '',
@@ -111,6 +121,8 @@
 				progress: 0,
 				dependencies: ''
 			};
+
+		var add_task = 0;
 
 		function addTask(temp_task){
 			var tname = prompt("Name of Task");
@@ -199,12 +211,20 @@
 
 			ttt.push(temp_task);
 
-			alert('test 2');
 
 			var sssss = JSON.stringify(gantt_chart.tasks);
 			loadAllTasksFromString(sssss);
-			alert('test 3');
+
 		};
+//end of addtask stuff
+		function editTimeStart(){
+		}
+		function editTimeEnd(){
+		} 
+		function conLog(){
+			var zzz = document.getElementById("consoleout");
+  			zzz.innerHTML = JSON.stringify(gantt_chart.tasks);
+		}
 
 	</script>
 <div class="mx-auto mt-3 btn-group" role="group">
@@ -214,7 +234,8 @@
 	  <button type="button" class="btn btn-sm btn-light active" onClick="gantt_chart.change_view_mode('Week');">Week</button>
 	  <button type="button" class="btn btn-sm btn-light" onClick="gantt_chart.change_view_mode('Month');">Month</button>
 	  <button type="button" class="btn btn-sm btn-light" onClick="addTask(new_task);">Add Task</button>
-	  <button type="button" class="btn btn-sm btn-light" onClick="console.log(JSON.stringify(gantt_chart.tasks));">save to console</button>
+	  <button type="button" class="btn btn-sm btn-light" onClick="editTask(new_task);">Edit Task</button>
+	  <button type="button" class="btn btn-sm btn-light" onClick="console.log(JSON.stringify(gantt_chart.tasks));conLog();">save to console</button>
 	  <button type="button" class="btn btn-sm btn-light" onClick="loadAllTasksFromInput();">load from input string</button>
 	</div>
 	<div><span><p1>--------</p1></span></div>
@@ -226,8 +247,9 @@
 	<div><span><p1>--------</p1></span></div>
 	 <div class="popup"><span class="popuptext" id="dateEndPopUp">Choose an end Date<input id="enddate" placeholder="gantt_chart.gannt_start" type="date" /><input id="endtime" placeholder="gantt_chart.gannt_start" type="time" /><button type="button" class="btn btn-sm btn-light" onClick="progress(new_task);">Go</button></span></div>
 	<div><span><p1>--------</p1></span></div>
+	<div><span><p1 id='consoleout'></p1></span></div>
 	<div><span><p1>--------</p1></span></div>
-	<div><span><p1>--------</p1></span></div>
+	<div class="popup"><span class="popuptext" id="timePopUp">Choose a date-time<input type="datetime-local" /><button type="button" class="btn btn-sm btn-light" onClick="acceptDateField();">Go</button></span></div>
 <div class="popup"><span class="popuptext" id="selectTasksPopup">
 <form>
   <select id="mySelect">
